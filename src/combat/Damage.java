@@ -1,10 +1,14 @@
 package global.entities.interactions.combat;
 
+import java.util.Random;
+
 public class Damage {
 	
+	private Random randNum = new Random(); 
 	private int totalNumDmgId = 0;
 	private int minDmg;
 	private int maxDmg;
+	private double baseDmgNumId;
 	
 	public void defineTotalNumDmgId() {
 		setTotalNumDmgId(maxDmg-minDmg+1);
@@ -20,11 +24,27 @@ public class Damage {
 		return getMinDmg()+" - "+getMaxDmg();
 	}
 	
-	public void checkDmgOutput() {
+	private void determineBaseDmgNumId(){
 		
 	}
 	
-	public void dealDamage(int bonusDmg) {
+	public void checkDmgOutput() {
+		if(!isCritical) {
+			double dmgOutNumId = randNum.nextDouble(1)+0.01;
+			int maxNumDmgVal = totalNumDmgId;
+			
+			for(int i=1;baseDmgNumId*i <= 1;i++) {
+				if(dmgOutNumId >= 1 - (baseDmgNumId*i)) {
+					dealDamage(maxNumDmgVal);
+					break;
+				}else {
+					maxNumDmgVal--;
+				}
+			}
+		}
+	}
+	
+	public static void dealDamage(int bonusDmg) {
 		
 	}
 
